@@ -1,0 +1,47 @@
+<template>
+<div>
+    <b-row class="d-flex justify-content-center">
+        <b-col cols="3">
+            <b-form-select v-model="selectedCountry" :options="countries" value-field="alpha3Code" text-field="name">
+            </b-form-select>
+        </b-col>
+    </b-row>
+
+    <b-row class="mt-5 d-flex justify-content-center" v-if="selectedCountry =='MYS'">
+        YAY!
+    </b-row>
+</div>
+</template>
+
+<script>
+import axios from 'axios'
+
+export default {
+    data() {
+        return {
+            countries: [],
+            selectedCountry: ''
+        }
+    },
+    created() {
+        this.loadAllCountries()
+    },
+
+    methods: {
+        loadAllCountries() {
+            axios.get('https://restcountries.eu/rest/v2/all')
+                .then(respond => {
+                    console.log(respond)
+                    this.countries = respond.data
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+
+        }
+
+    }
+}
+</script>
+
+<style scoped></style>
